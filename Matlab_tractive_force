@@ -58,12 +58,10 @@ legend('acceleration force');
 
 %Total Tractice Force
 Total_Tractive_Force = (Aerodynamic_force+Rolling_force+Gradient_force+acceleration_force);
-plot(velocity,Total_Tractive_Force);
+plot(time,Total_Tractive_Force);
 
-xlabel('Velocity (mph)');
-ylabel('Total Tractive Force');
-title('Total Tractive Force vs Velocity');
-legend('Total Tractive Force');
-
-
+xlabel('time (mph)');
+ylabel(' Total Tractive force)');
+title('Total Tractive force vs Time');
+legend('Total Tractive force');
 
