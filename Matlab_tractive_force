@@ -1,0 +1,69 @@
+%All constants are assigned given values
+wheelradius = 0.2032;
+airdensity=1.22;
+dragcoefficient=0.29;
+frontalarea=0.31;
+GVM=1600;
+GVW=GVM*9.81;
+theta=0;
+rolling_Coefficient=0.015;
+
+
+data = readmatrix('Nedc.xlsx');
+time = data(:,1);
+velocity = data(:,2); %velovity in Kph
+% Velocity(m/s) = (Vel)=(1000/3600)*Velocity ;converting kph to mps
+Vel = (1000/3600)*velocity;
+plot(time,Vel);
+% Adding labels,title and legend
+xlabel('Time (s)');
+ylabel('Velocity (mps)');
+title('Velocity vs Time');
+legend('Velocity');
+ %Wheelspeed
+WheelSpeed = Vel*60/(2*pi*wheelradius);
+plot(time,WheelSpeed);
+% Adding labels,title and legend
+xlabel('Time (s)');
+ylabel('Wheelspeed (rpm)');
+title('Wheelspeed vs Time');
+legend('Wheelspeed');
+
+% Aerodynamic force - (Af) = 0.5*Rho*Cd*Fa*V^2
+Aerodynamic_force = 0.5*airdensity*dragcoefficient*frontalarea*velocity.^2;
+plot(velocity,Aerodynamic_force);
+xlabel('Velocity (mph)');
+ylabel('Aerodynamic force (N)');
+title('Aerodynamic force vs Velocity');
+legend('Aerodynamic force');
+
+%rolling force and gradient force
+Rolling_force = rolling_Coefficient*GVW;
+display(Rolling_force)
+Gradient_force = GVW*sin(theta);
+display(Gradient_force);
+
+%accelerarion force
+
+acceleration = diff(Vel) ./ diff(time); % accelarion is dv/dt;change in velocity with respect to change in time
+acceleration = linspace(0, 3537, length(Vel));
+acceleration_force = linspace(0, 3537, length(Vel));
+acceleration_force = GVM *acceleration;
+
+plot(Vel,acceleration);
+xlabel('Velocity (mph)');
+ylabel('acceleration force');
+title('acceleration force vs Time');
+legend('acceleration force');
+
+%Total Tractice Force
+Total_Tractive_Force = (Aerodynamic_force+Rolling_force+Gradient_force+acceleration_force);
+plot(velocity,Total_Tractive_Force);
+
+xlabel('Velocity (mph)');
+ylabel('Total Tractive Force');
+title('Total Tractive Force vs Velocity');
+legend('Total Tractive Force');
+
+
+
